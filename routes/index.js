@@ -12,18 +12,23 @@ const promisePool = pool.promise();
 
 
 router.get('/', async function (req, res, next) {
-    const [rows] = await promisePool.query("SELECT * FROM ja15forum");
+    const [rows] = await promisePool.query("SELECT * FROM al07forum");
     res.json({ rows });
-    res.render('index.njk', {
-        rows: rows,
-        title: 'Forum',
-    });
+    
 });
-
+res.render('index.njk', {
+    rows: rows,
+    title: 'Forum',
+});
 router.post('/new', async function (req, res, next) {
     const { author, title, content } = req.body;
-    const [rows] = await promisePool.query("INSERT INTO DITT_TABELL_NAMN (author, title, content) VALUES (?, ?, ?)", [author, title, content]);
+    const [rows] = await promisePool.query("al07forum (author, title, content) VALUES (?, ?, ?)", [author, title, content]);
     res.redirect('/');
+});
+router.get('/new', async function (req, res, next) {
+    res.render('new.njk', {
+        title: 'Nytt inlägg',
+    });
 });
 
 module.exports = router;
